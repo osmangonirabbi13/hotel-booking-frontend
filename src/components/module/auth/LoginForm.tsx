@@ -1,197 +1,234 @@
-"use client"
+"use client";
 import { loginAction } from "@/app/(AuthLayout)/login/_action";
-import AppField from "@/components/shared/form/AppField";
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-
-import AppSubmitButton from "@/components/shared/form/AppSubmitButton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ILoginPayload, loginZodSchema } from "@/zod/auth.validation";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-interface LoginFormProps {
-    redirectPath ?: string;
-}
-const LoginForm = ({ redirectPath }: LoginFormProps) => {
-    // const queryClient = useQueryClient();
-
-    const [serverError, setServerError] = useState<string | null>(null);
-    const [showPassword, setShowPassword] = useState(false);
-
-    const { mutateAsync , isPending} = useMutation({
-        mutationFn : (payload : ILoginPayload) => loginAction(payload , redirectPath),
-    })
-
-    const form = useForm({
-        defaultValues : {
-            email : "",
-            password : "",
-        },
-
-        onSubmit : async ({value}) => {
-            setServerError(null);
-            try {
-                const result = await mutateAsync(value) as any;
-
-                if(!result.success ){
-                    setServerError(result.message || "Login failed");
-                    return ;
-                }
-            } catch (error : any) {
-                console.log(`Login failed: ${error.message}`);
-                setServerError(`Login failed: ${error.message}`);
-            }
-        }
-    })
+/* ── Reusable input ──────────────────────────────────────────────────────── */
+function InputField({
+  label,
+  required,
+  type = "text",
+  value,
+  onChange,
+  onBlur,
+  error,
+  suffix,
+}: {
+  label: string;
+  required?: boolean;
+  type?: string;
+  value: string;
+  onChange: (v: string) => void;
+  onBlur: () => void;
+  error?: string | null;
+  suffix?: React.ReactNode;
+}) {
   return (
-    <Card className="w-full max-w-md mx-auto shadow-md">
-      <CardHeader className="text-center">
-        <CardTitle className="text-2xl font-bold">Welcome Back!</CardTitle>
-        <CardDescription>
-          Please enter your credentials to log in.
-        </CardDescription>
-      </CardHeader>
-
-      <CardContent>
-        <form
-          method="POST"
-          action="#"
-          noValidate
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
-          }}
-          className="space-y-4"
-        >
-          <form.Field
-            name="email"
-            validators={{ onChange: loginZodSchema.shape.email }}
-          >
-            {(field) => (
-              <AppField
-                field={field}
-                label="Email"
-                type="email"
-                placeholder="Enter your email"
-              />
-            )}
-          </form.Field>
-
-          <form.Field
-            name="password"
-            validators={{ onChange: loginZodSchema.shape.password }}
-          >
-            {(field) => (
-              <AppField
-                field={field}
-                label="Password"
-                type={showPassword ? "text" : "password"}
-                // type="text"
-                placeholder="Enter your password"
-                aria-label={showPassword ? "Hide password" : "Show password"}
-                className="cursor-pointer"
-                append={
-                  <Button
-                  type="button"
-                    onClick={() => setShowPassword((value) => !value)}
-                    variant="ghost"
-                    size="icon"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="size-4" aria-hidden="true" />
-                    ) : (
-                      <Eye className="size-4" aria-hidden="true" />
-                    )}
-                  </Button>
-                }
-              />
-            )}
-          </form.Field>
-
-          <div className="text-right mt-2">
-            <Link
-              href="/forgot-password"
-              className="text-sm text-primary hover:underline underline-offset-4"
-            >
-              Forgot password?
-            </Link>
-          </div>
-
-          {serverError && (
-            <Alert variant={"destructive"}>
-              <AlertDescription>{serverError}</AlertDescription>
-            </Alert>
-          )}
-
-          <form.Subscribe
-            selector={(s) => [s.canSubmit, s.isSubmitting] as const}
-          >
-            {([canSubmit, isSubmitting]) => (
-              <AppSubmitButton isPending={isSubmitting || isPending} pendingLabel="Logging In...." disabled={!canSubmit}>
-                Log In
-              </AppSubmitButton>  
-            )}
-          </form.Subscribe>
-        </form>
-
-        <div className="relative my-6">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-gray-500">
-              Or continue with
-            </span>
-          </div>
-        </div>
-
-        <Button variant="outline" className="w-full" onClick={() => {
-            const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-            //TODO redirect path after login in frontend
-            window.location.href = `${baseUrl}/auth/login/google`;
-        }}>
-          <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-            />
-            <path
-              fill="currentColor"
-              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-            />
-            <path
-              fill="currentColor"
-              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-            />
-            <path
-              fill="currentColor"
-              d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-            />
-          </svg>
-          Sign in with Google
-        </Button>
-      </CardContent>
-
-      <CardFooter className="justify-center border-t pt-4">
-        <p className="text-sm text-muted-foreground">
-              Don&apos;t have an account?{" "}
-            <Link
-                href="/register"
-                className="text-primary font-medium hover:underline underline-offset-4"
-            >
-                Sign Up for an account
-            </Link>
-        </p>
-      </CardFooter>
-    </Card>
+    <div className="flex flex-col gap-1">
+      <label className="text-[13px] text-[#555] font-sans">
+        {label}
+        {required && <span className="text-[#999]">*</span>}
+      </label>
+      <div
+        className={`
+          flex items-center rounded-full border bg-white px-5 transition-colors
+          ${error
+            ? "border-red-300"
+            : "border-[#e0e0e0] focus-within:border-[#aaa]"
+          }
+        `}
+      >
+        <input
+          type={type}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onBlur={onBlur}
+          className="flex-1 bg-transparent py-3 text-sm text-[#1a1a1a] outline-none font-sans"
+        />
+        {suffix && <span className="ml-2 shrink-0">{suffix}</span>}
+      </div>
+      {error && (
+        <p className="px-2 text-[11px] text-red-500 font-sans">{error}</p>
+      )}
+    </div>
   );
 }
 
-export default LoginForm
+/* ── Main Form ───────────────────────────────────────────────────────────── */
+interface LoginFormProps {
+  redirectPath?: string;
+}
+
+const LoginForm = ({ redirectPath }: LoginFormProps) => {
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (payload: ILoginPayload) => loginAction(payload, redirectPath),
+  });
+
+  const form = useForm({
+    defaultValues: { email: "", password: "" },
+    onSubmit: async ({ value }) => {
+      setServerError(null);
+      try {
+        const result = (await mutateAsync(value)) as any;
+        if (!result.success) {
+          setServerError(result.message || "Login failed");
+        }
+      } catch (error: any) {
+        setServerError(`Login failed: ${error.message}`);
+      }
+    },
+  });
+
+  return (
+    <form
+      noValidate
+      onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        form.handleSubmit();
+      }}
+      className="flex flex-col gap-4"
+    >
+      {/* Email */}
+      <form.Field
+        name="email"
+        validators={{ onChange: loginZodSchema.shape.email }}
+      >
+        {(field) => (
+          <InputField
+            label="Email"
+            required
+            type="email"
+            value={field.state.value}
+            onChange={field.handleChange}
+            onBlur={field.handleBlur}
+            error={field.state.meta.isTouched ? field.state.meta.errors?.[0]?.message : null}
+          />
+        )}
+      </form.Field>
+
+      {/* Password */}
+      <form.Field
+        name="password"
+        validators={{ onChange: loginZodSchema.shape.password }}
+      >
+        {(field) => (
+          <InputField
+            label="Password"
+            required
+            type={showPassword ? "text" : "password"}
+            value={field.state.value}
+            onChange={field.handleChange}
+            onBlur={field.handleBlur}
+            error={field.state.meta.isTouched ? field.state.meta.errors?.[0]?.message : null}
+            suffix={
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                className="text-[#bbb] hover:text-[#777] transition-colors"
+              >
+                {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+              </button>
+            }
+          />
+        )}
+      </form.Field>
+
+      {/* Forgot password */}
+      <div className="text-right -mt-1">
+        <Link
+          href="/forgot-password"
+          className="text-[12px] text-[#999] hover:text-[#444] underline underline-offset-2 transition-colors font-sans"
+        >
+          Forgot password?
+        </Link>
+      </div>
+
+      {serverError && (
+        <Alert variant="destructive" className="rounded-full px-5">
+          <AlertDescription className="text-xs">{serverError}</AlertDescription>
+        </Alert>
+      )}
+
+      {/* Submit */}
+      <form.Subscribe selector={(s) => [s.canSubmit, s.isSubmitting] as const}>
+        {([canSubmit, isSubmitting]) => (
+          <button
+            type="submit"
+            disabled={!canSubmit || isSubmitting || isPending}
+            className="
+              flex w-full items-center justify-center gap-2
+              rounded-full bg-[#1a1a1a] py-3.5
+              text-sm font-medium tracking-wide text-white
+              transition-all hover:bg-[#333] active:scale-[0.99]
+              disabled:opacity-40 disabled:cursor-not-allowed
+              font-sans
+            "
+          >
+            {isSubmitting || isPending ? (
+              <>
+                <Loader2 size={14} className="animate-spin" />
+                Signing in…
+              </>
+            ) : (
+              "Sign in"
+            )}
+          </button>
+        )}
+      </form.Subscribe>
+
+      {/* Divider */}
+      <div className="flex items-center gap-3 my-1">
+        <div className="h-px flex-1 bg-[#ebebeb]" />
+        <span className="text-[11px] text-[#bbb] font-sans">or continue with</span>
+        <div className="h-px flex-1 bg-[#ebebeb]" />
+      </div>
+
+      {/* Google */}
+      <button
+        type="button"
+        onClick={() => {
+          const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+          window.location.href = `${baseUrl}/auth/login/google`;
+        }}
+        className="
+          flex w-full items-center justify-center gap-2.5
+          rounded-full border border-[#e0e0e0] bg-white py-3
+          text-sm font-medium text-[#1a1a1a]
+          transition hover:border-[#bbb] hover:bg-[#fafafa]
+          font-sans
+        "
+      >
+        <svg className="h-4 w-4" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+        </svg>
+        Sign in with Google
+      </button>
+
+      {/* Register link */}
+      <p className="text-center text-[12px] text-[#999] font-sans">
+        Don&apos;t have an account?{" "}
+        <Link
+          href="/register"
+          className="text-[#1a1a1a] underline underline-offset-2 hover:text-[#444] transition-colors"
+        >
+          Sign up
+        </Link>
+      </p>
+    </form>
+  );
+};
+
+export default LoginForm;
