@@ -13,3 +13,9 @@ export interface ILoginResponse {
     emailVerified: boolean;
   };
 }
+
+
+export interface IRegisterResponse {
+  success: boolean;
+  message: string;
+}
