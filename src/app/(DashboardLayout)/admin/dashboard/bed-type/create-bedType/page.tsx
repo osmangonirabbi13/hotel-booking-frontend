@@ -1,9 +1,11 @@
-import React from 'react'
+import CreateBedTypeForm from "@/components/module/admin/bed-type/CreateBedTypeForm";
 
-export default function CreateBedTypePage() {
+
+export default function BedTypesPage() {
   return (
-    <div>   CreateBedTypePage</div>
-  )
+    <div className="p-6">
+      <h1 className="mb-6 text-2xl font-bold">Bed Types</h1>
+      <CreateBedTypeForm />
+    </div>
+  );
 }
-
-//

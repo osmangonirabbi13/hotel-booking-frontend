@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import { createAmenity } from "@/app/(DashboardLayout)/admin/dashboard/amenities/_action";
 import { ICreateAmenity } from "@/types/amenity.types";
 
 export const useCreateAmenity = () => {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   return useMutation({
     mutationFn: (payload: ICreateAmenity) => createAmenity(payload),
@@ -16,6 +20,9 @@ export const useCreateAmenity = () => {
       queryClient.invalidateQueries({
         queryKey: ["amenities"],
       });
+
+      // 🔥 redirect
+      router.push("/admin/dashboard/amenities");
     },
 
     onError: (error: any) => {
