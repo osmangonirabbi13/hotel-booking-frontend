@@ -1,11 +1,16 @@
+import LoginForm from "@/components/module/auth/LoginForm";
 
 
-const LoginPage = () => {
-    return (
-        <div>
-            <h1>Login Page</h1>
-        </div>
-    );
-};
+interface LoginParams {
+  searchParams: Promise<{ redirect?: string }>;
+}
 
-export default LoginPage;
+const LoginPage = async ({ searchParams }: LoginParams) => {
+  const params = await searchParams;
+  const redirectPath = params.redirect;
+  return (
+    <LoginForm redirectPath={redirectPath}/>
+  )
+}
+
+export default LoginPage
