@@ -1,11 +1,10 @@
-import React from 'react';
+import AmenityList from "@/components/module/admin/Amenity/AmenityList";
 
-const AmenitiesPage = () => {
-    return (
-        <div>
-            <h1>Amenities</h1>
-        </div>
-    );
-};
-
-export default AmenitiesPage;
+export default function AmenitiesPage() {
+  return (
+    <div className="p-6">
+      <h1 className="mb-6 text-2xl font-bold">Amenities</h1>
+      <AmenityList />
+    </div>
+  );
+}

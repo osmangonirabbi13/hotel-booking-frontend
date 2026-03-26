@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import QueryProviders from "@/providers/QueryProvider";
+import { Toaster } from "sonner";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -36,7 +37,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${cormorant.variable} h-full antialiased`}
     >
       <body className="antialiased">
-        <QueryProviders>{children}</QueryProviders>
+        <QueryProviders>{children}  <Toaster/></QueryProviders>
       </body>
     </html>
   );
