@@ -115,3 +115,27 @@ export interface IRoomFilters {
   maxChildren: string;
   totalUnits: string;
 }
+
+
+export interface ICreateRoomPayload {
+  rent: number;
+  totalUnits: number;
+  roomSize: number;
+  numberOfBaths: number;
+  maxGuests: number;
+  maxAdults: number;
+  maxChildren: number;
+  categoryId: string;
+  bedTypeId: string;
+  isEventSpace: boolean;
+  isFeatured: boolean;
+  isActive: boolean;
+  enableDynamicPricing: boolean;
+  featuredImage: string | null;
+  sliderImages: string[];
+  roomTitle: string;
+  featuredTitle: string;
+  description: string;
+  seoTitle: string;
+  seoDescription: string;
+}
