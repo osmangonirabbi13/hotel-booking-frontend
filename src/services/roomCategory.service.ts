@@ -1,3 +1,6 @@
+"use server"
+
+
 import { httpClient } from "@/lib/axios/httpClient";
 import { ICreateRoomCategory, IRoomCategory, IUpdateRoomCategory } from "@/types/roomCategory.types";
 
@@ -36,9 +39,13 @@ export const updateRoomCategory = async (
   }
 };
 
-export const deleteRoomCategory = async (id: string): Promise<IRoomCategory> => {
+export const deleteRoomCategory = async (
+  id: string
+): Promise<{ success: boolean; message: string }> => {
   try {
-    const res = await httpClient.delete<IRoomCategory>(`/room-categories/${id}`);
+    const res = await httpClient.delete<{ success: boolean; message: string }>(
+      `/room-categories/${id}`
+    );
     return res.data;
   } catch (error) {
     console.log("Error deleting room category:", error);

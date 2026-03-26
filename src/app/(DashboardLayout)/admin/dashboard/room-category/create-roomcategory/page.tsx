@@ -1,7 +1,10 @@
-import React from 'react'
+import CreateRoomCategoryForm from "@/components/module/admin/room-category/CreateRoomCategoryForm";
 
 export default function CreateRoomCategoryPage() {
   return (
-    <div>CreateRoomCategoryPage</div>
-  )
-}   
+    <div className="p-6">
+      <h1 className="mb-6 text-2xl font-bold">Create Room Category</h1>
+      <CreateRoomCategoryForm />
+    </div>
+  );
+}
