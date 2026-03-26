@@ -46,9 +46,9 @@ export default function Navbar() {
 
         <div className="hidden items-center gap-8 lg:flex">
           <Link href="/login" className="text-[12px] uppercase tracking-wider text-white hover:text-[#C9A96E]">Login</Link>
-          <button className="border border-[#C9A96E] px-7 py-2.5 text-[11px] font-semibold uppercase tracking-widest text-[#C9A96E] transition-all hover:bg-[#C9A96E] hover:text-black">
-            Reservation
-          </button>
+          <Link href="/register" className="border border-[#C9A96E] px-7 py-2.5 text-[11px] font-semibold uppercase tracking-widest text-[#C9A96E] transition-all hover:bg-[#C9A96E] hover:text-black">
+            Register
+          </Link>
         </div>
 
         {/* Mobile Toggle */}
@@ -98,13 +98,14 @@ export default function Navbar() {
               >
                 Login
               </Link>
-
-              <button
+              <Link
+                href="/register"
                 onClick={() => setMenuOpen(false)}
-                className="rounded-md border border-[#C9A96E] px-3 py-2 text-sm font-semibold uppercase tracking-[1px] text-[#C9A96E] transition hover:bg-[#C9A96E] hover:text-black"
+                className="rounded-md border border-[#C9A96E] px-3 py-2 text-center text-sm uppercase tracking-[1px] text-white hover:bg-[#C9A96E]/20"
               >
-                Reservation
-              </button>
+                Register
+              </Link>
+
             </div>
           </div>
         </div>
