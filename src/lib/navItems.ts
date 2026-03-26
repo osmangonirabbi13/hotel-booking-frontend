@@ -45,17 +45,17 @@ export const adminNavItems: NavSection[] = [
     items: [
 
         {
-        title: "Amenity Management",
+        title: "Amenity Create",
         href: "/admin/dashboard/amenities",
         icon: "BuildingStorefront",
         },
         {
-        title: "Extra Service ",
+        title: "Extra Service Create",
         href: "/admin/dashboard/extra-service",
         icon: "service",
         },
         {
-        title: "Room Management",
+        title: "Create Room",
         href: "/admin/dashboard/rooms",
         icon: "building",
         },
@@ -66,7 +66,7 @@ export const adminNavItems: NavSection[] = [
         },
         {
         title: "Room Category Management",
-        href: "/admin/dashboard/room-categories",
+        href: "/admin/dashboard/room-category",
         icon: "Calendar",
         },
       {

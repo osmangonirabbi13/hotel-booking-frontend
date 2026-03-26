@@ -15,8 +15,9 @@ export interface PieChartData {
 }
 
 export interface BarChartData {
-  month: Date | string;
-  count: number;
+  month: string | Date;
+  bookingCount: number;
+  revenue: number;
 }
 
 export interface IAdminDashboardData {
