@@ -5,9 +5,10 @@ import { httpClient } from "@/lib/axios/httpClient";
 import { ApiErrorResponse } from "@/types/api.types";
 import { redirect } from "next/navigation";
 
-interface IChangePasswordPayload {
-  email: string;
-  otp: string;
+
+export interface IChangePasswordPayload {
+    currentPassword: string;
+    newPassword: string;
 }
 
 interface IChangePasswordResponse {
@@ -20,7 +21,7 @@ export const changePasswordAction = async (
 ): Promise<IChangePasswordResponse | ApiErrorResponse> => {
   try {
     const response = await httpClient.post<IChangePasswordResponse>(
-      "/change-password",
+      "/auth/change-password",
       payload
     );
 

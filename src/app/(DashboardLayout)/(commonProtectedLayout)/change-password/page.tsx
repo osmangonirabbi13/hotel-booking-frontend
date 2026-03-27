@@ -1,8 +1,9 @@
+import ChangePasswordPage from "@/components/module/auth/ChangePassword";
 
 const ChangePassword = () => {
     return (
         <div>
-            <h1>Change Password</h1>
+           <ChangePasswordPage/>
         </div>
     );
 };
