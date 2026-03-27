@@ -58,7 +58,7 @@ export const getDefaultDashboardRoute = (role: UserRole) => {
     }
 
     if (role === "CUSTOMER") {
-        return "/dashboard";
+        return "/";
     }
 
     return "/";

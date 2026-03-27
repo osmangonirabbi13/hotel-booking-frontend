@@ -79,11 +79,7 @@ export const adminNavItems: NavSection[] = [
         href: "/admin/dashboard/book-management",
         icon: "Calendar",
       },
-      {
-        title: "Payments",
-        href: "/admin/dashboard/payments-management",
-        icon: "CreditCard",
-      },
+      
     ],
   },
 ];
