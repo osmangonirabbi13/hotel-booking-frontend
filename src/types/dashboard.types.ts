@@ -39,3 +39,32 @@ export interface IAdminDashboardData {
     bookingCount: number;
   }[];
 }
+
+
+export interface IBookingStatusDistribution {
+  status: string;
+  count: number;
+}
+
+export interface IRecentBooking {
+  id: string;
+  checkIn: string;
+  checkOut: string;
+  totalPrice: number;
+  status: string;
+  guests: number;
+  room: {
+    roomTitle: string | null;
+    featuredImage: string;
+    rent: number;
+  };
+}
+
+export interface ICustomerDashboardData {
+  totalBookings: number;
+  upcomingBookings: number;
+  reviewCount: number;
+  totalSpent: number;
+  bookingStatusDistribution: IBookingStatusDistribution[];
+  recentBookings: IRecentBooking[];
+}

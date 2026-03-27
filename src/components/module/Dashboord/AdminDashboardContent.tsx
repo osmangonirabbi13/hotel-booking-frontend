@@ -16,7 +16,9 @@ const AdminDashboardContent = () => {
     const {data : adminDashboardData} = useQuery({
         queryKey: ["admin-dashboard-data"],
         queryFn: getDashboardData,
-        refetchOnWindowFocus: "always" // Refetch the data when the window regains focus
+        refetchOnWindowFocus: "always",
+        staleTime: 1000 * 60 * 1,
+        gcTime: 1000 * 60 * 2,
     })
 
     const {data} = adminDashboardData as ApiResponse<IAdminDashboardData>;
