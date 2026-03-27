@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use server";
 
 import { setTokenInCookies } from "@/lib/tokenUtils";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 const BASE_API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -166,3 +168,33 @@ export async function logoutUser() {
     return false;
   }
 }
+
+export const updateMyProfile = async (formData: FormData) => {
+  try {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+    const sessionToken = cookieStore.get("better-auth.session_token")?.value;
+
+    const cookieHeader = [
+      accessToken ? `accessToken=${accessToken}` : "",
+      sessionToken ? `better-auth.session_token=${sessionToken}` : "",
+    ].filter(Boolean).join("; ");
+
+    const res = await fetch(`${BASE_API_URL}/customers/update-my-profile`, {
+      method: "PATCH",
+      headers: {
+        Cookie: cookieHeader,
+        // Content-Type eikhane set korbe na
+      },
+      body: formData,
+    });
+
+    if (res.ok) {
+      revalidatePath("/profile");
+      return true;
+    }
+    return false;
+  } catch (error) {
+    return false;
+  }
+};

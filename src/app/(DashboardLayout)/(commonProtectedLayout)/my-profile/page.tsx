@@ -1,13 +1,12 @@
-import React from 'react';
 
-const MyProfile = () => {
+import MyProfile from '@/components/module/auth/Myprofile';
+
+const MyProfilePage = () => {
     return (
         <div>
-            <h1>
-                My Profile
-            </h1>
+            <MyProfile />
         </div>
     );
 };
 
-export default MyProfile;
+export default MyProfilePage;

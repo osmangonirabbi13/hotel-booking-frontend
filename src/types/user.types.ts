@@ -4,5 +4,6 @@ export interface UserInfo {
     id : string;
     name : string,
     email : string,
-    role : UserRole
+    role : UserRole,
+    profilePhoto : string
 }

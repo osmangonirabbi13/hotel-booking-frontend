@@ -8,6 +8,7 @@ import Link from "next/link"
 import Swal from "sweetalert2"
 import { useRouter } from "next/navigation"
 import { logoutUser } from "@/services/auth.service"
+import Image from "next/image"
 
 
 interface UserDropdownProps {
@@ -54,7 +55,17 @@ const UserDropdown = ({ userInfo }: UserDropdownProps) => {
         <DropdownMenu>
             <DropdownMenuTrigger className="inline-flex items-center justify-center rounded-full border border-input bg-background h-9 w-9 hover:bg-accent hover:text-accent-foreground">
                 <span className="text-sm font-semibold">
-                    {userInfo.name.charAt(0).toUpperCase()}
+                    {userInfo.profilePhoto ? (
+                        <Image
+                            src={userInfo.profilePhoto}
+                            alt={userInfo.name}
+                            width={36}
+                            height={36}
+                            className="rounded-full object-cover"
+                        />
+                    ) : (
+                        userInfo.name.charAt(0).toUpperCase()
+                    )}
                 </span>
             </DropdownMenuTrigger>
 

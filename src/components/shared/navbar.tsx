@@ -178,7 +178,7 @@ export default function Navbar({ user }: { user: UserInfo | null }) {
                     </Link>
 
                     <Link
-                      href="/profile"
+                      href="/my-profile"
                       onClick={() => setProfileOpen(false)}
                       className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-white transition hover:bg-white/10"
                     >
