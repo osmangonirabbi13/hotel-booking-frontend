@@ -6,7 +6,7 @@ import StatsCard from "@/components/shared/StatsCard"
 // import AppointmentBarChart from "@/components/shared/AppointmentBarChart"
 // import AppointmentPieChart from "@/components/shared/AppointmentPieChart
 
-import { getDashboardData } from "@/services/dashboard.service"
+import { httpClientBrowser } from "@/lib/axios/httpClientBrowser"
 
 import { ApiResponse } from "@/types/api.types"
 import { IAdminDashboardData } from "@/types/dashboard.types"
@@ -15,7 +15,7 @@ import { useQuery } from "@tanstack/react-query"
 const AdminDashboardContent = () => {
     const {data : adminDashboardData} = useQuery({
         queryKey: ["admin-dashboard-data"],
-        queryFn: getDashboardData,
+        queryFn: () => httpClientBrowser.get<IAdminDashboardData>("/stats"),
         refetchOnWindowFocus: "always",
         staleTime: 1000 * 60 * 1,
         gcTime: 1000 * 60 * 2,

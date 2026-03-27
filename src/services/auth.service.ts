@@ -87,3 +87,82 @@ export async function getUserInfo() {
     return null;
   }
 }
+
+
+export async function changePassword(payload: { password: string }) {
+  try {
+    const cookieStore = await cookies();
+
+    const accessToken = cookieStore.get("accessToken")?.value;
+      const sessionToken = cookieStore.get("better-auth.session_token")?.value;
+
+    if (!accessToken && !sessionToken) {
+      return null;
+    }
+
+    const cookieHeader = [
+      accessToken ? `accessToken=${accessToken}` : "",
+      sessionToken ? `better-auth.session_token=${sessionToken}` : "",
+    ]
+      .filter(Boolean)
+      .join("; ");
+
+    const res = await fetch(`${BASE_API_URL}/auth/change-password`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: cookieHeader,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      console.error("Failed to change password:", res.status, res.statusText);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Error changing password:", error);
+    return false;
+  }
+}
+
+
+export async function logoutUser() {
+  try {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value;
+    const sessionToken = cookieStore.get("better-auth.session_token")?.value;
+
+    const cookieHeader = [
+      accessToken ? `accessToken=${accessToken}` : "",
+      sessionToken ? `better-auth.session_token=${sessionToken}` : "",
+    ]
+      .filter(Boolean)
+      .join("; ");
+
+    const res = await fetch(`${BASE_API_URL}/auth/logout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: cookieHeader, // Authentication pathatei hobe
+      },
+    });
+
+    if (!res.ok) {
+      console.error("Failed to logout user:", res.status, res.statusText);
+      return false;
+    }
+
+    // Server side theke cookie gulo delete kora
+    cookieStore.delete("accessToken");
+    cookieStore.delete("refreshToken");
+    cookieStore.delete("better-auth.session_token");
+
+    return true;
+  } catch (error) {
+    console.error("Error logging out:", error);
+    return false;
+  }
+}

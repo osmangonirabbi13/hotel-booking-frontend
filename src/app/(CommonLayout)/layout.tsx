@@ -1,5 +1,6 @@
 import Footer from "@/components/shared/footer";
-import Navbar from "@/components/shared/navbar";
+import NavbarWrapper from "@/components/shared/NavbarWrapper";
+
 
 
 export default function CommonLayout({
@@ -11,7 +12,7 @@ export default function CommonLayout({
     <>
      <div className="flex flex-col min-h-screen">
       
-      <Navbar />
+     <NavbarWrapper/>
       <main className="flex-1">
         {children}
       </main>

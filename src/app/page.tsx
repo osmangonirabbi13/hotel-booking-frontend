@@ -7,12 +7,12 @@ import TestimonialsSection from "@/components/Home/testimonialsSection";
 import VideoSection from "@/components/Home/videoSection";
 import WhyChooseSection from "@/components/Home/WhyChooseSection";
 import Footer from "@/components/shared/footer";
-import Navbar from "@/components/shared/navbar";
+import NavbarWrapper from "@/components/shared/NavbarWrapper";  
 
 export default function HomePage() {
   return (
     <>
-      <Navbar />
+      <NavbarWrapper/>
       <main>
         <HeroSection />
         <WhyChooseSection/>
