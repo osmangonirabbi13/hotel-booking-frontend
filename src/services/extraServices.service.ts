@@ -21,6 +21,7 @@ export const getExtraServices = async () => {
     try {
         const res = await httpClient.get<IExtraService[]>("/extra-services");
         return res.data;
+
     } catch (error) {
         console.log("Error fetching extra services:", error);
         throw error;

@@ -1,9 +1,12 @@
+"use server"
+
 import { httpClient } from "@/lib/axios/httpClient";
 import { ICreateRoomPayload, IRoom } from "@/types/room.types";
 
 export const getRooms = async (queryString : string) => {
     try {
         const rooms = await httpClient.get<IRoom[]>(queryString ? `/rooms?${queryString}` : "/rooms");
+        console.log(rooms)
         return rooms;
     } catch (error) {
         console.log("Error fetching rooms:", error);
@@ -11,15 +14,15 @@ export const getRooms = async (queryString : string) => {
     }
 }
 
-export const createRoom = async (roomData : ICreateRoomPayload) => {
-    try {
-        const room = await httpClient.post<IRoom>(`/rooms/create-room`, roomData);
-        return room;
-    } catch (error) {
-        console.log("Error creating room:", error);
-        throw error;
-    }
-}
+export const createRoom = async (roomData: ICreateRoomPayload | FormData) => {
+  try {
+    const room = await httpClient.post<IRoom>(`/rooms/create-room`, roomData);
+    return room;
+  } catch (error) {
+    console.log("Error creating room:", error);
+    throw error;
+  }
+};
 
 export const getRoomById = async (id : string  ) => {
     try {

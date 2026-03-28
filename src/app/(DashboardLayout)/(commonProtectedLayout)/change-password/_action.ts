@@ -25,7 +25,7 @@ export const changePasswordAction = async (
       payload
     );
 
-    console.log(response.data);
+    
 
     
     redirect("/login?verified=true");

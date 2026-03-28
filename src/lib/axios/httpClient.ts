@@ -83,6 +83,13 @@ const httpPost = async <TData>(
 ): Promise<ApiResponse<TData>> => {
   try {
     const instance = await axiosInstance();
+
+    const isFormData = typeof FormData !== "undefined" && data instanceof FormData;
+    if (isFormData) {
+      delete instance.defaults.headers.common["Content-Type"];
+      delete (instance.defaults.headers as any)["Content-Type"];
+    }
+
     const response = await instance.post<ApiResponse<TData>>(endpoint, data, {
       params: options?.params,
       headers: options?.headers,

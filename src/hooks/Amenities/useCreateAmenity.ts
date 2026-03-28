@@ -21,7 +21,6 @@ export const useCreateAmenity = () => {
         queryKey: ["amenities"],
       });
 
-      // 🔥 redirect
       router.push("/admin/dashboard/amenities");
     },
 
