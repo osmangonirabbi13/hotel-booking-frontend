@@ -1,18 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
 import { httpClient } from "@/lib/axios/httpClient";
-import { ICreateRoomPayload, IRoom } from "@/types/room.types";
+import { ICreateRoomPayload, IRoom, IRoomsResponse, } from "@/types/room.types";
 
-export const getRooms = async (queryString : string) => {
-    try {
-        const rooms = await httpClient.get<IRoom[]>(queryString ? `/rooms?${queryString}` : "/rooms");
-        console.log(rooms)
-        return rooms;
-    } catch (error) {
-        console.log("Error fetching rooms:", error);
-        throw error;
-    }
-}
+
+
+
+export const getRooms = async (queryString?: string): Promise<IRoomsResponse> => {
+  const res = await httpClient.get<IRoomsResponse>(
+    queryString ? `/rooms?${queryString}` : "/rooms"
+  );
+  
+  return (res as any) ?? (res as any).data; 
+};
+
 
 export const createRoom = async (roomData: ICreateRoomPayload | FormData) => {
   try {

@@ -12,6 +12,7 @@ function Sheet({ ...props }: SheetPrimitive.Root.Props) {
 }
 
 function SheetTrigger({ ...props }: SheetPrimitive.Trigger.Props) {
+  // Base UI-te trigger ke customize korar jonno amra 'render' use korbo
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />
 }
 

@@ -1,11 +1,14 @@
-import React from 'react';
+import RoomsHero from '@/components/module/rooms/RoomsHero';
+import RoomsPage from '@/components/module/rooms/RoomsPage';
 
-const RoomPage = () => {
+
+const RoomPages = () => {
     return (
         <div>
-            <h1>Room Page</h1>
+            <RoomsHero />
+            <RoomsPage />
         </div>
     );
 };
 
-export default RoomPage;
+export default RoomPages;

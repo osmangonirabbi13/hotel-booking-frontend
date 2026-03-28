@@ -178,23 +178,29 @@ export const updateMyProfile = async (formData: FormData) => {
     const cookieHeader = [
       accessToken ? `accessToken=${accessToken}` : "",
       sessionToken ? `better-auth.session_token=${sessionToken}` : "",
-    ].filter(Boolean).join("; ");
+    ]
+      .filter(Boolean)
+      .join("; ");
 
     const res = await fetch(`${BASE_API_URL}/customers/update-my-profile`, {
       method: "PATCH",
       headers: {
         Cookie: cookieHeader,
-        // Content-Type eikhane set korbe na
+        
       },
       body: formData,
     });
 
-    if (res.ok) {
-      revalidatePath("/profile");
-      return true;
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.message || "Failed to update profile");
     }
-    return false;
+
+    revalidatePath("/profile");
+    return await res.json();
+
   } catch (error) {
-    return false;
+    console.log("Error updating profile:", error);
+    throw error; 
   }
 };
