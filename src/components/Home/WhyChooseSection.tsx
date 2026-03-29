@@ -6,9 +6,9 @@ export default function WhyChooseSection() {
       className="
         bg-[#f7f7f5]
         px-4
-        pt-60 pb-20
-        sm:px-6 sm:pt-44 sm:pb-24
-        lg:px-8 lg:pt-52 lg:pb-28
+        pt-16 pb-16
+        sm:px-6 sm:pt-20 sm:pb-16
+        lg:px-8 lg:pt-16 lg:pb-16
       "
     >
       <div className="mx-auto max-w-6xl text-center">

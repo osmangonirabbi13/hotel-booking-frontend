@@ -1,20 +1,34 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use server"
 
 import { httpClient } from "@/lib/axios/httpClient";
 import {
+  IApiResponse,
   IBooking,
+  IBookingResponse,
   IChangeBookingStatusPayload,
-  ICreateBookingPayload,
+  IBookBookingPayload,
 } from "@/types/booking.types";
 
-export const createBooking = async (
-  payload: ICreateBookingPayload
-): Promise<IBooking> => {
+export const createBooking = async (payload: IBookBookingPayload) => {
   try {
-    const res = await httpClient.post<IBooking>("/bookings", payload);
-    return res.data;
-  } catch (error) {
-    console.log("Error creating booking:", error);
+    const res = await httpClient.post<IApiResponse<IBookingResponse>>(
+      "/bookings",
+      payload
+    );
+
+    const responseData = res.data as any; 
+
+    return {
+      success: responseData.success ?? true, 
+      message: responseData.message || "Booking created",
+      paymentUrl: responseData.paymentUrl || null,
+      booking: responseData.booking || null,
+      payment: responseData.payment || null,
+    };
+  } catch (error: any) {
+    console.error("Service Error:", error);
     throw error;
   }
 };

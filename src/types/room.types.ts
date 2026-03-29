@@ -198,4 +198,6 @@ export interface IRoom {
 
   category?: ICategory;
   bedType?: IBedType;
+  amenities?: IRoomAmenity[];
+extraServices?: IRoomExtraService[];
 }

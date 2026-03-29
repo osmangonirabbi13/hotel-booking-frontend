@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { MoveLeft, MoveRight } from "lucide-react";
-import BookingBar from "./bookingbar";
+
 
 
 const slides = [
@@ -168,7 +168,7 @@ export default function HeroSection() {
           px-3 sm:px-5 lg:px-8
         "
       >
-        <BookingBar />
+        
       </div>
     </section>
   );
