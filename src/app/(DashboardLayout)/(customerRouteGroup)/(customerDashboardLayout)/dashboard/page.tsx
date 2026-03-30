@@ -1,7 +1,7 @@
 import CustomerDashboardContent from "@/components/module/Dashboord/CustomerDashboardContent";
 import { getDashboardData } from "@/services/dashboard.service";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-
+export const dynamic = "force-dynamic";
 const CustomerDashboardPage = async () => {
   const queryClient = new QueryClient();
 

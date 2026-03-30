@@ -1,13 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
+
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getRooms } from "@/services/room.service";
+import Link from "next/link";
+import Image from "next/image";
 
+// Types definition
 interface IRoom {
   id: string;
   roomTitle: string;
@@ -19,8 +22,16 @@ interface IRoom {
   bedType?: { name?: string };
 }
 
+// API theke asha data-r structure
+interface ApiResponse {
+  data: IRoom[] | any;
+  success?: boolean;
+  message?: string;
+}
+
 export default function RoomsSection() {
-  const { data, isLoading, isError } = useQuery({
+  // queryFn er return type define kora hoyeche
+  const { data, isLoading, isError } = useQuery<ApiResponse | IRoom[]>({
     queryKey: ["home-rooms"],
     queryFn: async () => {
       const res = await getRooms("limit=6");
@@ -28,10 +39,11 @@ export default function RoomsSection() {
     },
   });
 
-  const rooms: IRoom[] = Array.isArray(data?.data)
-    ? data.data
-    : Array.isArray(data)
+  // Type-safe vabe rooms array extract kora
+  const rooms: IRoom[] = Array.isArray(data)
     ? data
+    : Array.isArray((data as ApiResponse)?.data)
+    ? (data as ApiResponse).data
     : [];
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -62,12 +74,11 @@ export default function RoomsSection() {
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-  const scrollTo   = useCallback((i: number) => emblaApi?.scrollTo(i), [emblaApi]);
+  const scrollTo = useCallback((i: number) => emblaApi?.scrollTo(i), [emblaApi]);
 
   return (
     <section className="bg-[#F9F8F6] py-20 px-4 overflow-hidden">
       <div className="mx-auto max-w-[1360px]">
-
         {/* Header */}
         <div className="mb-12 flex flex-col items-center text-center sm:flex-row sm:items-end sm:justify-between sm:text-left">
           <div>
@@ -121,7 +132,6 @@ export default function RoomsSection() {
                       key={room.id}
                       className="group min-w-0 flex-[0_0_100%] sm:flex-[0_0_calc(50%-12px)] lg:flex-[0_0_calc(33.333%-16px)]"
                     >
-                      {/* ✅ Clickable image */}
                       <Link href={`/rooms/${room.id}`} className="block">
                         <div className="relative overflow-hidden rounded-md">
                           <div className="relative h-[320px] w-full">
@@ -138,7 +148,6 @@ export default function RoomsSection() {
 
                       <div className="mt-5 flex items-start justify-between">
                         <div>
-                          {/* ✅ Clickable title */}
                           <Link href={`/rooms/${room.id}`}>
                             <h3 className="font-serif text-2xl font-normal text-[#1B1B1B] hover:text-[#AA8453] transition-colors">
                               {room.roomTitle}
@@ -160,7 +169,6 @@ export default function RoomsSection() {
                           </p>
                         </div>
 
-                        {/* Arrow button — already had link */}
                         <Link
                           href={`/rooms/${room.id}`}
                           className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#AA8453]/50 text-[#AA8453] transition hover:bg-[#AA8453] hover:text-white hover:border-[#AA8453]"

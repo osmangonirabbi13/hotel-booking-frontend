@@ -9,6 +9,8 @@ import WhyChooseSection from "@/components/Home/WhyChooseSection";
 import Footer from "@/components/shared/footer";
 import NavbarWrapper from "@/components/shared/NavbarWrapper";  
 
+export const dynamic = "force-dynamic";
+
 export default function HomePage() {
   return (
     <>

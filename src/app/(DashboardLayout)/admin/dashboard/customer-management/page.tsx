@@ -1,5 +1,5 @@
 import CustomerTable from "@/components/module/Customer/CustomerTable";
-
+export const dynamic = "force-dynamic";
 const CustomerManagementPage = () => {
     return (
         <div className="p-6 space-y-6">

@@ -18,10 +18,9 @@ import { logoutUser } from "@/services/auth.service";
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
   { label: "Rooms", href: "/rooms" },
+  { label: "About Us", href: "/about" },
   { label: "Services", href: "/services" },
-  { label: "Blogs", href: "/blogs" },
   { label: "Contact", href: "/contact" },
 ];
 

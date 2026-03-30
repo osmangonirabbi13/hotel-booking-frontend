@@ -1,7 +1,10 @@
 import RoomTable from "@/components/module/admin/RoomTable/Roomtable";
 
-import Link from "next/link";
+
 import { Plus } from "lucide-react";
+import Link from "next/link";
+
+export const dynamic = "force-dynamic";
 
 export default function RoomsPage() {
   return (

@@ -6,8 +6,9 @@ import { useAmenities } from "@/hooks/Amenities/useAmenities";
 import { useBedTypes } from "@/hooks/BadType/useBedTypes";
 import { useExtraServices } from "@/hooks/ExtraServices/useExtraServices";
 import { useRoomCategories } from "@/hooks/roomCategory/useRoomCategories";
-import { useCreateRoom } from "@/hooks/rooms/useCreateRooms";
+import { useCreateRooms } from "@/hooks/rooms/useCreateRooms";
 import Image from "next/image";
+
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -52,7 +53,7 @@ function Toggle({
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function CreateRoom() {
-  const { mutate: handleCreateRoom, isPending } = useCreateRoom();
+  const { mutate: handleCreateRoom, isPending } = useCreateRooms();
 
   const { data: categories } = useRoomCategories();
   const { data: bedTypes } = useBedTypes();

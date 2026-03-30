@@ -94,11 +94,7 @@ export const customerNavItems: NavSection[] = [
         href: "/dashboard/my-bookings",
         icon: "Calendar",
       },
-      {
-        title: "Book Room",
-        href: "/dashboard/book-hotel",
-        icon: "ClipboardList",
-      },
+      
     ],
   },
 ];

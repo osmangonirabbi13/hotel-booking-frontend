@@ -2,6 +2,8 @@ import AdminDashboardContent from "@/components/module/Dashboord/AdminDashboardC
 import { getDashboardData } from "@/services/dashboard.service";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
+export const dynamic = "force-dynamic";
+
 const AdminDashboardPage = async () => {
   const queryClient = new QueryClient();
 

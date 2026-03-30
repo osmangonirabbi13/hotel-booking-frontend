@@ -1,5 +1,7 @@
-import Link from "next/link";
+
 import ExtraServiceTable from "@/components/module/admin/extra-service/ExtraServiceTable";
+import Link from "next/link";
+export const dynamic = "force-dynamic";
 
 export default function ExtraServicesPage() {
   return (

@@ -14,6 +14,46 @@ export interface IBookBookingPayload {
   extraServiceIds?: string[];
 }
 
+export interface IPayment {
+  id: string;
+  amount: number;
+  transactionId: string;
+  stripeEventId?: string | null;
+  status?: string;
+  invoiceUrl?: string | null;
+  paymentGatewayData?: unknown;
+  createdAt: string;
+  updatedAt: string;
+  bookingId: string;
+}
+
+export interface IBookingRoom {
+  id: string;
+  rent?: number;
+  totalUnits?: number;
+  roomSize?: number;
+  numberOfBaths?: number;
+  maxGuests?: number;
+  maxAdults?: number | null;
+  maxChildren?: number | null;
+  categoryId?: string;
+  bedTypeId?: string;
+  isEventSpace?: boolean;
+  isFeatured?: boolean;
+  isActive?: boolean;
+  enableDynamicPricing?: boolean;
+  featuredImage?: string | null;
+  sliderImages?: string[];
+  roomTitle?: string | null;
+  featuredTitle?: string | null;
+  description?: string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+  adminId?: string | null;
+}
+
 export interface IBooking {
   id: string;
   roomId: string;
@@ -21,11 +61,11 @@ export interface IBooking {
   checkIn: string;
   checkOut: string;
   guests: number;
+  adults?: number;
+  children?: number;
   specialRequests?: string;
   status: string;
   totalPrice: number;
-  paymentStatus?: string;
-  transactionId?: string;
   createdAt: string;
   updatedAt: string;
   bookingId?: string;
@@ -36,24 +76,13 @@ export interface IBooking {
     email?: string;
   };
 
-  room?: {
-    id: string;
-    roomTitle?: string;
-    name?: string;
-  };
+  room?: IBookingRoom;
+  payment?: IPayment;
 }
 
 export interface IBookingResponse {
   booking: IBooking;
-  payment: {
-    id: string;
-    amount: number;
-    transactionId: string;
-    status: string;
-    createdAt: string;
-    updatedAt: string;
-    bookingId: string;
-  };
+  payment: IPayment;
   paymentUrl: string;
 }
 
@@ -86,6 +115,16 @@ export interface GetAllBookingResponse {
     updatedAt: string;
     bookingId: string;
   }[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
+export interface IBookingListData {
+  data: IBooking[];
   meta: {
     page: number;
     limit: number;

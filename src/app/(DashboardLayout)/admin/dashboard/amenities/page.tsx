@@ -1,6 +1,7 @@
 import AmenityList from "@/components/module/admin/Amenity/AmenityList";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
 
 
 export default function AmenitiesPage() {

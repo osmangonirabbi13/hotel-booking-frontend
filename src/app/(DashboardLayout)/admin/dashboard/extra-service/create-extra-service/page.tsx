@@ -1,5 +1,5 @@
 import CreateExtraServiceForm from "@/components/module/admin/extra-service/CreateExtraServiceForm";
-
+export const dynamic = "force-dynamic";
 export default function CreateExtraServicePage() {
   return (
     <div className="p-6">

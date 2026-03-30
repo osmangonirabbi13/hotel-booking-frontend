@@ -1,5 +1,5 @@
 import CreateAmenityForm from "@/components/module/admin/Amenity/CreateAmenityForm";
-
+export const dynamic = "force-dynamic";
 export default function CreateAmenityPage() {
   return (
     <>

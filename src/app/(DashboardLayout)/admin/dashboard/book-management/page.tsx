@@ -1,6 +1,6 @@
 import BookingTable from '@/components/module/Booking/BookingTable';
 import React from 'react';
-
+export const dynamic = "force-dynamic";
 
 const BookManagementPage = () => {
     return (

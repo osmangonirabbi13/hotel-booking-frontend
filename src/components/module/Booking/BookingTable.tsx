@@ -28,12 +28,17 @@ import {
 } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
 
+type BookingStatus = "PENDING" | "CONFIRMED" | "CANCELED";
+
 const BookingTable = () => {
   const { data: bookingsData = [], isLoading } = useGetBookings();
   const { deleteMutation, updateStatusMutation } = useBookingActions();
-  
+
   const [isEditOpen, setIsEditOpen] = useState(false);
-  const [selectedBooking, setSelectedBooking] = useState<{ id: string; status: string } | null>(null);
+  const [selectedBooking, setSelectedBooking] = useState<{
+    id: string;
+    status: BookingStatus;
+  } | null>(null);
 
   const handleDelete = (id: string) => {
     Swal.fire({
@@ -49,7 +54,7 @@ const BookingTable = () => {
   };
 
   const handleEditClick = (id: string, currentStatus: string) => {
-    setSelectedBooking({ id, status: currentStatus });
+    setSelectedBooking({ id, status: currentStatus as BookingStatus });
     setIsEditOpen(true);
   };
 
@@ -95,6 +100,7 @@ const BookingTable = () => {
               </tr>
             ))}
           </thead>
+
           <tbody className="divide-y divide-gray-100">
             {table.getRowModel().rows.length > 0 ? (
               table.getRowModel().rows.map((row) => (
@@ -121,21 +127,45 @@ const BookingTable = () => {
         <p className="text-xs text-gray-500 font-medium">
           Showing page {table.getState().pagination.pageIndex + 1} of {table.getPageCount() || 1}
         </p>
+
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>Previous</Button>
-          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>Next</Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
         </div>
       </div>
 
       <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
         <DialogContent className="sm:max-w-[400px]">
-          <DialogHeader><DialogTitle>Change Booking Status</DialogTitle></DialogHeader>
+          <DialogHeader>
+            <DialogTitle>Change Booking Status</DialogTitle>
+          </DialogHeader>
+
           <div className="py-4">
-            <Select 
-              value={selectedBooking?.status} 
-              onValueChange={(val) => setSelectedBooking(prev => prev ? {...prev, status: val} : null)}
+            <Select
+              value={selectedBooking?.status}
+              onValueChange={(val) =>
+                setSelectedBooking((prev) =>
+                  prev && val ? { ...prev, status: val as BookingStatus } : prev
+                )
+              }
             >
-              <SelectTrigger><SelectValue placeholder="Select Status" /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue placeholder="Select Status" />
+              </SelectTrigger>
               <SelectContent>
                 <SelectItem value="PENDING">Pending</SelectItem>
                 <SelectItem value="CONFIRMED">Confirmed</SelectItem>
@@ -143,8 +173,11 @@ const BookingTable = () => {
               </SelectContent>
             </Select>
           </div>
+
           <DialogFooter>
-            <Button variant="ghost" onClick={() => setIsEditOpen(false)}>Cancel</Button>
+            <Button variant="ghost" onClick={() => setIsEditOpen(false)}>
+              Cancel
+            </Button>
             <Button onClick={handleStatusUpdate} disabled={updateStatusMutation.isPending}>
               {updateStatusMutation.isPending ? "Updating..." : "Update Status"}
             </Button>

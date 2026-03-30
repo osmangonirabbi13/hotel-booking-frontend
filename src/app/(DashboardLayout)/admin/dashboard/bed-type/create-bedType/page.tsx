@@ -1,5 +1,5 @@
 import CreateBedTypeForm from "@/components/module/admin/bed-type/CreateBedTypeForm";
-
+export const dynamic = "force-dynamic";
 
 export default function BedTypesPage() {
   return (

@@ -1,5 +1,8 @@
-import Link from "next/link";
+
 import RoomCategoryTable from "@/components/module/admin/room-category/RoomCategoryTable";
+import Link from "next/link";
+
+export const dynamic = "force-dynamic";
 
 export default function RoomCategoriesPage() {
   return (

@@ -12,17 +12,17 @@ const team = [
   {
     name: "James Whitmore",
     role: "General Manager",
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1800&auto=format&fit=crop",
+    image: "https://i.ibb.co.com/sd4hhqkR/portrait-white-man-isolated.jpg",
   },
   {
     name: "Sofia Laurent",
     role: "Head Chef",
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1800&auto=format&fit=crop",
+    image: "https://i.ibb.co.com/PsG9MrBZ/close-up-portrait-curly-handsome-european-male.jpg",
   },
   {
     name: "Arjun Mehta",
     role: "Guest Relations Director",
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1800&auto=format&fit=crop",
+    image: "https://i.ibb.co.com/8LtdxbbM/closeup-young-female-professional-making-eye-contact-against-colored-background.jpg",
   },
 ];
 
@@ -34,7 +34,7 @@ const AboutPages = () => {
       <section className="relative h-[60vh] min-h-[420px] w-full overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1800&auto=format&fit=crop" }}
+          style={{ backgroundImage: "url('https://i.ibb.co.com/zTJ7LDhQ/photo-1566073771259-6a8506099945.webp" }}
         />
         <div className="absolute inset-0 bg-black/45" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
@@ -59,6 +59,8 @@ const AboutPages = () => {
                 alt="SeaPearl Interior"
                 fill
                 className="object-cover"
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
               />
             </div>
             {/* Floating badge */}

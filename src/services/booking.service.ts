@@ -3,13 +3,41 @@
 "use server"
 
 import { httpClient } from "@/lib/axios/httpClient";
+import { ApiResponse } from "@/types/api.types";
 import {
   IApiResponse,
   IBooking,
   IBookingResponse,
   IChangeBookingStatusPayload,
   IBookBookingPayload,
+  IBookingListData,
 } from "@/types/booking.types";
+import axios from "axios";
+
+
+
+const getAxiosErrorMessage = (
+  error: unknown,
+  fallback = "Something went wrong"
+): string => {
+  if (axios.isAxiosError(error)) {
+    const data = error.response?.data as
+      | { message?: string; error?: string }
+      | string
+      | undefined;
+
+    if (typeof data === "string") return data;
+    if (typeof data?.error === "string") return data.error;
+    if (typeof data?.message === "string") return data.message;
+
+    return error.message || fallback;
+  }
+
+  if (error instanceof Error) return error.message;
+  return fallback;
+};
+
+
 
 export const createBooking = async (payload: IBookBookingPayload) => {
   try {
@@ -34,22 +62,33 @@ export const createBooking = async (payload: IBookBookingPayload) => {
 };
 
 export const getAllBookings = async (): Promise<IBooking[]> => {
+  const res = await httpClient.get<ApiResponse<IBooking[]>>("/bookings");
+  return res.data.data;
+};
+
+export const getMyBookings = async (): Promise<IBookingListData> => {
   try {
-    const res = await httpClient.get<IBooking[]>("/bookings");
-    return res.data?.data || [];
+    const res = await httpClient.get<IApiResponse<IBookingListData>>(
+      "/bookings/my-bookings"
+    );
+    
+    return res.data.data; 
   } catch (error) {
-    console.log("Error fetching bookings:", error);
-    throw error;
+    const message = getAxiosErrorMessage(error, "Failed to fetch bookings");
+    throw new Error(message);
   }
 };
 
-export const getMySingleBooking = async (id: string): Promise<IBooking> => {
+export const getMySingleBooking = async (id: string): Promise<any> => {
   try {
-    const res = await httpClient.get<IBooking>(`/bookings/my-bookings/${id}`);
+   
+    const res = await httpClient.get(`/bookings/my-bookings/${id}`);
+    
     return res.data;
-  } catch (error) {
-    console.log("Error fetching booking:", error);
-    throw error;
+  } catch (error: any) {
+    
+    const message = error.response?.data?.message || "Booking not found or access denied";
+    throw new Error(message);
   }
 };
 

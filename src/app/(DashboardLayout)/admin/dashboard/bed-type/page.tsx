@@ -1,6 +1,7 @@
-import Link from "next/link";
-import BedTypeTable from "@/components/module/admin/bed-type/BedTypeTable";
 
+import BedTypeTable from "@/components/module/admin/bed-type/BedTypeTable";
+import Link from "next/link";
+export const dynamic = "force-dynamic";
 export default function BedTypesPage() {
   return (
     <div className="p-6">
