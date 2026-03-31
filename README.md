@@ -3,6 +3,18 @@
 A modern and responsive hotel booking web application built with **Next.js**, **TypeScript**, and **React Query**.
 
 ---
+🌍 Live Demo
+
+Frontend: https://hotel-booking-frontend-copy.vercel.app/
+
+Backend: https://14-hotel-booking-backend.vercel.app/
+
+Admin Email      : admin@gmail.com    
+Admin Password   : admin1234
+ --
+Customer Email : customer@gmail.com     
+Customer Password : customer123
+
 
 ## 🚀 Features
 
